@@ -42,9 +42,7 @@ public class TestScript_1 : MonoBehaviour
 
     private void FirstMove()
     {
-        transform.Rotate( 0, 0, 90 );
-        // ;sldkfjhg;lksdfgjklsdjglksdf'l;gdj';khlsdj;lgf
-        // 나는 빡빡이다 나는 빡빡이다 나는 빡빡이다 나는 빡빡이다 나는 빡빡이다 나는 빡빡이다
+        
     }
 
     private void PlayerMove()
