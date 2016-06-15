@@ -44,7 +44,7 @@ public class TestScript_1 : MonoBehaviour
     {
         transform.Rotate( 0, 0, 90 );
         // ;sldkfjhg;lksdfgjklsdjglksdf'l;gdj';khlsdj;lgf
-        // 당신은 탈모빔에 맞았습니다. 30초 내로 이 밑에 자라나라 머리머리를 3번 써 넣으세요. 아직 늦지 않았습니다. 29....28....27....
+        // 나는 빡빡이다 나는 빡빡이다 나는 빡빡이다 나는 빡빡이다 나는 빡빡이다 나는 빡빡이다
     }
 
     private void PlayerMove()
