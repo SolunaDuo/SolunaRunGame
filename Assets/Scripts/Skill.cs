@@ -3,11 +3,7 @@ using System.Collections;
 
 /// <summary>
 /// 스킬
-/// - 움직임 및 연출
-/// - 쿨타임
-/// - 스킬 사용 가능 여부
 /// - 장애물 파괴 (파괴 시 점수 증가)
-/// - 스킬 사용 후 원위치
 /// </summary>
 
 public enum DIRECTION
@@ -28,15 +24,18 @@ public class Skill : MonoBehaviour
     private DIRECTION m_eSkillDir;      // 스킬 사용 방향
     private Vector2 m_vec2TargetPos;    // 스킬 사용시 도착 지점 저장 변수
     private Vector2 m_vec2StartPos;     // 스킬 시작 지점
+    private Vector2 m_vec2ClickPnt;     // 화면 클릭 지점 저장 변수
     private TrailRenderer m_trSkillEff; // 스킬 효과 연출용 트레일 렌더러
-    private bool m_bUse;                // 스킬이 사용중인지 체크하는 함수
-    private bool m_bCoolTime;           // 스킬이 쿨타임인지 체크하는 함수
+    private bool m_bUse;                // 스킬이 사용중인지 체크하는 변수
+    private bool m_bCoolTime;           // 스킬이 쿨타임인지 체크하는 변수
+    private bool m_bClick;              // 마우스 클릭이 됬었는지 체크하는 변수
 
     // Use this for initialization
     void Awake()
     {
         m_vec2TargetPos = new Vector2();
         m_vec2StartPos = new Vector2();
+        m_vec2ClickPnt = new Vector2();
         m_trSkillEff = gameObject.GetComponent<TrailRenderer>();
         m_bCoolTime = false;
         m_bUse = false;
@@ -61,7 +60,33 @@ public class Skill : MonoBehaviour
             m_eSkillDir = DIRECTION.RIGHT;
             UseSkill();
         }
-    }
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            if (!m_bClick)
+            {
+                m_vec2ClickPnt = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
+                StartCoroutine(DClickTimer());
+            }
+            else
+            {
+                if (m_vec2ClickPnt.x > 0.0f &&
+                   Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane)).x > 0.0f)
+                {
+                    m_eSkillDir = DIRECTION.RIGHT;
+                    UseSkill();
+                }
+                else if (m_vec2ClickPnt.x < 0.0f &&
+                        Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane)).x < 0.0f)
+                {
+                    m_eSkillDir = DIRECTION.LEFT;
+                    UseSkill();
+                }
+            }
+        }
+
+
+    }      
 
     public void UseSkill(DIRECTION direction)
     {
@@ -109,7 +134,7 @@ public class Skill : MonoBehaviour
             gameObject.transform.localPosition = m_vec2TargetPos;
             m_trSkillEff.enabled = false;
 
-            StartCoroutine(CoolTimeChecker());
+            StartCoroutine(CoolTimeTimer());
 
             // y좌표 0.0f 될때까지 내려감
             while (gameObject.transform.localPosition.y > 0.0f)
@@ -125,7 +150,7 @@ public class Skill : MonoBehaviour
     }
 
     // 스킬 쿨타임을 재는 기능
-    IEnumerator CoolTimeChecker()
+    IEnumerator CoolTimeTimer()
     {
         m_bCoolTime = true;
 
@@ -134,5 +159,16 @@ public class Skill : MonoBehaviour
 
         Debug.Log("CoolTime Over");
         m_bCoolTime = false;
+    }
+
+    IEnumerator DClickTimer()
+    {
+        m_bClick = true;
+
+        Debug.Log("ClickTimer Start");
+        yield return new WaitForSeconds(0.25f);
+
+        Debug.Log("ClickTimer Over");
+        m_bClick = false;
     }
 }
