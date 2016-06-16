@@ -9,6 +9,12 @@ public class HurdleMnager : MonoBehaviour {
     int nCurrent = 0; // 현재 장애물
 	// Use this for initialization
 	void Start () {
+        for(int i=0; i < obj_Hurdles.Length;++i)
+        {
+            obj_Hurdles[i].SetActive(false);
+        }
+
+        obj_Hurdles[nCurrent].SetActive(true);
         StartCoroutine(MapMove(Range));
     }
 	
@@ -28,8 +34,10 @@ public class HurdleMnager : MonoBehaviour {
 
             if(obj_Hurdles[nCurrent].transform.localPosition.y <= -(fRange * 2f)) // 장애물 길이 개선 필요
             {
-                obj_Hurdles[nCurrent].transform.localPosition = new Vector3(0.0f, fRange, 0.0f);
+                obj_Hurdles[nCurrent].transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+                obj_Hurdles[nCurrent].SetActive(false);
                 nCurrent = Random.Range(0, obj_Hurdles.Length);
+                obj_Hurdles[nCurrent].SetActive(true);
             }
 
         }

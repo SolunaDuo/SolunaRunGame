@@ -43,7 +43,8 @@ public class MapDown : MonoBehaviour {
                 if (nBot >= 3)
                     nBot = 0;
             }
-
         }
+
+
     }
 }
