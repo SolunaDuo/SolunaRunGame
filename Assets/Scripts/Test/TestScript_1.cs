@@ -19,6 +19,9 @@ public class TestScript_1 : MonoBehaviour
     {
         playerRig = GetComponent<Rigidbody2D>();
         text = GameObject.Find( "StartText" );
+        // Test Event;
+        Utils.Event.Send( "Start_Game" );
+        Utils.Event.Send( "send_data", "data", 3, 2, 5, 5.5f );
     }
 
     // Update is called once per frame
@@ -42,7 +45,7 @@ public class TestScript_1 : MonoBehaviour
 
     private void FirstMove()
     {
-        transform.Rotate( 0, 0, 90 );
+        
     }
 
     private void PlayerMove()
