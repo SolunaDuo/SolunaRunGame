@@ -18,7 +18,7 @@ public class TestScript_1 : MonoBehaviour
     void Awake()
     {
         playerRig = GetComponent<Rigidbody2D>();
-        playerRig.isKinematic = true;
+        //playerRig.isKinematic = true;
         text = GameObject.Find( "StartText" );
     }
 
@@ -43,7 +43,8 @@ public class TestScript_1 : MonoBehaviour
 
     private void FirstMove()
     {
-        StartCoroutine( rotateAnimeCor() );
+        playerRig.AddForce( JumpDirection() * 500, ForceMode2D.Force );
+        transform.Rotate( 0, 0, 90 );
     }
 
     private void PlayerMove()
@@ -51,12 +52,28 @@ public class TestScript_1 : MonoBehaviour
 
     }
 
-    IEnumerator rotateAnimeCor()
+    void OnCollisionEnter2D( Collision2D pCollision )
     {
-        while ( true )
+        if ( pCollision.gameObject.name.Contains( "Wall" ) )
         {
-            yield return new WaitForSeconds( Time.deltaTime );
-            transform.Rotate( 0, 0, 10 );
+            Fix();
         }
+    }
+
+    private void Fix()
+    {
+        playerRig.isKinematic = true;
+        playerRig.gravityScale = 0f;
+    }
+
+    private void UnFix()
+    {
+        playerRig.isKinematic = false;
+        playerRig.gravityScale = 1f;
+    }
+
+    private Vector3 JumpDirection()
+    {
+        return ( ( Vector3.right + Vector3.up ) + Vector3.up ).normalized
     }
 }
