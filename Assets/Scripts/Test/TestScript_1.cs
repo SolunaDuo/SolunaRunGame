@@ -74,6 +74,6 @@ public class TestScript_1 : MonoBehaviour
 
     private Vector3 JumpDirection()
     {
-        return ( ( Vector3.right + Vector3.up ) + Vector3.up ).normalized
+        return ((Vector3.right + Vector3.up) + Vector3.up).normalized;
     }
 }

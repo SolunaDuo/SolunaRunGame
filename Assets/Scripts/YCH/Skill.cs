@@ -39,6 +39,8 @@ public class Skill : MonoBehaviour
         m_trSkillEff = gameObject.GetComponent<TrailRenderer>();
         m_bCoolTime = false;
         m_bUse = false;
+
+
     }
 
     void Start()
@@ -84,8 +86,6 @@ public class Skill : MonoBehaviour
                 }
             }
         }
-
-
     }      
 
     public void UseSkill(DIRECTION direction)
