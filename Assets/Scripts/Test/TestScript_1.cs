@@ -18,6 +18,7 @@ public class TestScript_1 : MonoBehaviour
     void Awake()
     {
         playerRig = GetComponent<Rigidbody2D>();
+        playerRig.isKinematic = true;
         text = GameObject.Find( "StartText" );
     }
 
@@ -42,11 +43,20 @@ public class TestScript_1 : MonoBehaviour
 
     private void FirstMove()
     {
-        transform.Rotate( 0, 0, 90 );
+        StartCoroutine( rotateAnimeCor() );
     }
 
     private void PlayerMove()
     {
 
+    }
+
+    IEnumerator rotateAnimeCor()
+    {
+        while ( true )
+        {
+            yield return new WaitForSeconds( Time.deltaTime );
+            transform.Rotate( 0, 0, 10 );
+        }
     }
 }
