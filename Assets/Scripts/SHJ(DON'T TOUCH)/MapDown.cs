@@ -3,7 +3,6 @@ using System.Collections;
 
 public class MapDown : MonoBehaviour {
     public GameObject[] obj_Maps;
-    public float fSpeed;
     public float Range;
 
     
@@ -28,7 +27,7 @@ public class MapDown : MonoBehaviour {
             yield return new WaitForEndOfFrame();
 
             for(int i=0; i< obj_Maps.Length;++i)
-                obj_Maps[i].transform.localPosition -= new Vector3(0.0f, fSpeed * Time.deltaTime);
+                obj_Maps[i].transform.localPosition -= new Vector3(0.0f, GameManager.instance.fMapSpeed * Time.deltaTime);
 
             if (obj_Maps[nTop].transform.localPosition.y <= 0.0f)    // 맨 위에가 중앙으로 왔을 경우
             {

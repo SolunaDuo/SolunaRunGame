@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour {
         fFeverDelayTime += Time.deltaTime;
         fScoreDelayTime += Time.deltaTime;
 
-        if (fFeverDelayTime >= 1f)
+        if (fFeverDelayTime >= 5f)
         {
             fFeverDelayTime = 0.0f;
             PlusFeverGage(10);
