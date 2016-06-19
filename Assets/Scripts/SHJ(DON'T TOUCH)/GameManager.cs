@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 public class GameManager : MonoBehaviour {
     public static GameManager instance = null;
+
+    public List<int> ntest;
 
     public Text tScroe;
     public Image iFeverGage;
@@ -23,8 +26,13 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-	
-	}
+	    for(int i=0; i< 5; ++i)
+        {
+            ntest.Add(i);
+        }
+        DataSaveLoad.ins.SaveData(ntest, "TEST");
+        DataSaveLoad.ins.LoadData(ref ntest, "TEST");
+    }
 	
 	// Update is called once per frame
 	void Update ()

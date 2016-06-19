@@ -29,7 +29,7 @@ public class LTEXT : MonoBehaviour {
 
     private static bool bInit = false;
 
-    private static void Init(string szFile,int loadidx = 0)
+    private static void Init(string szFile,int loadidx = 0) 
     {
         TextAsset texAsst = (TextAsset)Resources.Load(szFile);
 
