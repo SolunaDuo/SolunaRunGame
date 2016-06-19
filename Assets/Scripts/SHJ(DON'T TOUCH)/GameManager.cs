@@ -5,12 +5,12 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance = null;
 
     public Text tScroe;
-
     public Image iFeverGage;
 
-    public float fMapSpeed = 10f; // 맵 스피드
+    public bool bPlayMode = true; // 플레이 중인지 확인
+    public float fGlobalSpeed = 10f; // 맵 스피드
 
-    private int nfeverGage = 0;
+    private float fFeverGage = 0;
     private int nScore = 0;
 
     private float fFeverDelayTime = 0.0f;
@@ -32,10 +32,10 @@ public class GameManager : MonoBehaviour {
         fFeverDelayTime += Time.deltaTime;
         fScoreDelayTime += Time.deltaTime;
 
-        if (fFeverDelayTime >= 5f)
+        if (fFeverDelayTime >= 0.1f)
         {
             fFeverDelayTime = 0.0f;
-            PlusFeverGage(10);
+            PlusFeverGage(0.1f);
         }
 
         if(fScoreDelayTime >= 0.2f)
@@ -46,15 +46,15 @@ public class GameManager : MonoBehaviour {
 
     } 
 
-    void PlusFeverGage(int nPlus)
+    void PlusFeverGage(float nPlus)
     {
-        if (nfeverGage > 100)
+        if (fFeverGage > 100f)
         {
-            nfeverGage = 100;
+            fFeverGage = 100f;
             return;
         }
-        nfeverGage += nPlus;
-        StartCoroutine(CoroutineManager.instance.fillAmountAni(iFeverGage,(float)nfeverGage / 100, 0.3f));
+        fFeverGage += nPlus;
+        StartCoroutine(CoroutineManager.instance.fillAmountAni(iFeverGage,fFeverGage / 100f, 0.3f));
     }
 
     void PlusScore(int nPlus)
@@ -63,9 +63,9 @@ public class GameManager : MonoBehaviour {
         tScroe.text = "Score : " + nScore;
     }
 
-    int GetFeverGage()
+    float GetFeverGage()
     {
-        return nfeverGage;
+        return fFeverGage;
     }
 
     int GetScore()

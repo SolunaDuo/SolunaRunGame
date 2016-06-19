@@ -42,20 +42,23 @@ public class HurdleMnager : MonoBehaviour {
     {
         yield return new WaitForEndOfFrame();
 
-        while (true) // 게임 시작하면 움직이게 변경
+        while (true)
         {
-            yield return new WaitForEndOfFrame();
-            obj_Hurdles[nCurrent].transform.localPosition -= new Vector3(0.0f, GameManager.instance.fMapSpeed * Time.deltaTime);
-
-            if(obj_Hurdles[nCurrent].transform.localPosition.y <= -(fRange * 2f)) // 장애물 길이 개선 필요
+            while (GameManager.instance.bPlayMode) // 게임 시작하면 움직이게 변경
             {
-                obj_Hurdles[nCurrent].transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
-                obj_Hurdles[nCurrent].SetActive(false);
-                nCurrent = Random.Range(0, obj_Hurdles.Length);
-                // 장애물 다시 설정
-                Hurdles_infos[nCurrent].Init();
-            }
+                yield return new WaitForEndOfFrame();
+                obj_Hurdles[nCurrent].transform.localPosition -= new Vector3(0.0f, GameManager.instance.fGlobalSpeed * Time.deltaTime);
 
+                if (obj_Hurdles[nCurrent].transform.localPosition.y <= -(fRange * 2f)) // 장애물 길이 개선 필요
+                {
+                    obj_Hurdles[nCurrent].transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+                    obj_Hurdles[nCurrent].SetActive(false);
+                    nCurrent = Random.Range(0, obj_Hurdles.Length);
+                    // 장애물 다시 설정
+                    Hurdles_infos[nCurrent].Init();
+                }
+            }
+            yield return new WaitForEndOfFrame();
         }
     }
 

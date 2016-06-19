@@ -16,7 +16,7 @@ public class Hundle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!gameObject.activeSelf)
+        if (!gameObject.activeSelf || !GameManager.instance.bPlayMode)
             return;
         if (fDropHundles == null || fDropHundles.Length <= nDropidx)
             return;
@@ -34,7 +34,7 @@ public class Hundle : MonoBehaviour
         transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
 
         nDropidx = 0;
-        HurdleMnager.instance.fDangerTime = GameManager.instance.fMapSpeed / 10;
+        HurdleMnager.instance.fDangerTime = GameManager.instance.fGlobalSpeed / 10;
     }
 
     IEnumerator DropMove()
@@ -49,6 +49,7 @@ public class Hundle : MonoBehaviour
             elspetime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
+
         elspetime = 0f;
         HurdleMnager.instance.obj_Danger.gameObject.SetActive(false);
 
@@ -57,7 +58,7 @@ public class Hundle : MonoBehaviour
         HurdleMnager.instance.obj_Drop.transform.localPosition = new Vector3(0.0f, 7.41f, 0.0f);
         while (HurdleMnager.instance.obj_Drop.transform.localPosition.y >= -(HurdleMnager.instance.Range * 2f))
         {
-            HurdleMnager.instance.obj_Drop.transform.localPosition -= new Vector3(0.0f, GameManager.instance.fMapSpeed * 2f * Time.deltaTime);
+            HurdleMnager.instance.obj_Drop.transform.localPosition -= new Vector3(0.0f, GameManager.instance.fGlobalSpeed * 1.5f * Time.deltaTime);
 
             yield return new WaitForEndOfFrame();
         }
