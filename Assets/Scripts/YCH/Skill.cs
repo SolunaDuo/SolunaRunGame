@@ -21,6 +21,8 @@ public class Skill : MonoBehaviour
     public float m_fMapSpeed;            // 맵 움직이는 속도
     public float m_fCoolTime;            // 스킬 쿨타임
 
+    public string m_sTest;
+
     private DIRECTION m_eSkillDir;      // 스킬 사용 방향
     private Vector2 m_vec2TargetPos;    // 스킬 사용시 도착 지점 저장 변수
     private Vector2 m_vec2StartPos;     // 스킬 시작 지점
@@ -39,13 +41,17 @@ public class Skill : MonoBehaviour
         m_trSkillEff = gameObject.GetComponent<TrailRenderer>();
         m_bCoolTime = false;
         m_bUse = false;
-
-
     }
 
     void Start()
     {
+        Save.instance.SetData("a", "a");
+        Save.instance.SetData("b", "b");
+        Save.instance.SetData("c", "c");
+        Save.instance.SetData("d", "d");
+        Save.instance.SetData("e", "e");
 
+        m_sTest = Save.instance.GetData("b");
     }
 
     // Update is called once per frame
