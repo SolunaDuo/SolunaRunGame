@@ -14,12 +14,16 @@ public class TestScript_1 : MonoBehaviour
 
     private GameObject text = null;
 
+    public float power = 500f;
+
+    private Vector3 jumpDir;
+
     // Use this for initialization
     void Awake()
     {
         playerRig = GetComponent<Rigidbody2D>();
-        //playerRig.isKinematic = true;
         text = GameObject.Find( "StartText" );
+        jumpDir = JumpDirection();
     }
 
     // Update is called once per frame
@@ -37,19 +41,24 @@ public class TestScript_1 : MonoBehaviour
 
         if ( isStartGame )
         {
-            PlayerMove();
+            //PlayerMove();
         }
     }
 
     private void FirstMove()
     {
-        playerRig.AddForce( JumpDirection() * 500, ForceMode2D.Force );
+        Jump();
         transform.Rotate( 0, 0, 90 );
     }
 
     private void PlayerMove()
     {
 
+    }
+
+    private void Jump()
+    {
+        playerRig.AddForce( jumpDir * power, ForceMode2D.Force );
     }
 
     void OnCollisionEnter2D( Collision2D pCollision )
@@ -74,6 +83,6 @@ public class TestScript_1 : MonoBehaviour
 
     private Vector3 JumpDirection()
     {
-        return ((Vector3.right + Vector3.up) + Vector3.up).normalized;
+        return ( ( Vector3.right + Vector3.up ) + Vector3.up ).normalized;
     }
 }
