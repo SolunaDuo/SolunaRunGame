@@ -3,7 +3,6 @@ using System.Collections;
 
 public class MapDown : MonoBehaviour {
     public GameObject[] obj_Maps;
-    public float fSpeed;
     public float Range;
 
     
@@ -23,26 +22,30 @@ public class MapDown : MonoBehaviour {
     {
         yield return new WaitForEndOfFrame();
 
-        while(true) // 게임 시작하면 움직이게 변경
+        while (true)
         {
-            yield return new WaitForEndOfFrame();
-
-            for(int i=0; i< obj_Maps.Length;++i)
-                obj_Maps[i].transform.localPosition -= new Vector3(0.0f, fSpeed * Time.deltaTime);
-
-            if (obj_Maps[nTop].transform.localPosition.y <= 0.0f)    // 맨 위에가 중앙으로 왔을 경우
+            while (GameManager.instance.bPlayMode) // 게임 시작하면 움직이게 변경
             {
-                int PrveTop = nTop; 
-     
-                obj_Maps[nBot].transform.localPosition = new Vector3(obj_Maps[nBot].transform.localPosition.x, fRange - 0.5f, obj_Maps[nBot].transform.localPosition.z);
-                // Bot을 Top로 옮겨준 다음 Bot은 전에 있던 Top 밑에 애로 바꿔줌.
-                nTop = nBot;
+                yield return new WaitForEndOfFrame();
 
-                nBot = PrveTop + 1;
+                for (int i = 0; i < obj_Maps.Length; ++i)
+                    obj_Maps[i].transform.localPosition -= new Vector3(0.0f, GameManager.instance.fGlobalSpeed * Time.deltaTime);
 
-                if (nBot >= 3)
-                    nBot = 0;
+                if (obj_Maps[nTop].transform.localPosition.y <= 0.0f)    // 맨 위에가 중앙으로 왔을 경우
+                {
+                    int PrveTop = nTop;
+
+                    obj_Maps[nBot].transform.localPosition = new Vector3(obj_Maps[nBot].transform.localPosition.x, fRange - 0.5f, obj_Maps[nBot].transform.localPosition.z);
+                    // Bot을 Top로 옮겨준 다음 Bot은 전에 있던 Top 밑에 애로 바꿔줌.
+                    nTop = nBot;
+
+                    nBot = PrveTop + 1;
+
+                    if (nBot >= 3)
+                        nBot = 0;
+                }
             }
+            yield return new WaitForEndOfFrame();
         }
 
 

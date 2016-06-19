@@ -5,8 +5,8 @@ public class EventTest : MonoBehaviour
 {
     void Awake()
     {
-        Utils.Event.Litsen( "Start_Game", ( args ) => Debug.Log( "Event!!" ) );
-        Utils.Event.Litsen( "send_data", Test );
+        //Utils.Event.Litsen( "Start_Game", ( args ) => Debug.Log( "Event!!" ) );
+        Utils.Event.Litsen( "start_game", Test );
     }
 
     private void Test( params object[] lol )

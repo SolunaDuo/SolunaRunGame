@@ -10,9 +10,11 @@ using UnityEngine.UI;
 */
 
 public class CoroutineManager : MonoBehaviour {
-	// Use this for initialization
-	void Awake () {
-		DontDestroyOnLoad (gameObject);
+    public static CoroutineManager instance = null;
+    // Use this for initialization
+    void Awake () {
+        instance = this;
+        DontDestroyOnLoad (gameObject);
 	}
 
     // 점점 느려지는 움직임
@@ -346,4 +348,25 @@ public class CoroutineManager : MonoBehaviour {
 			yield return new WaitForEndOfFrame ();
 		}
 	}
+
+
+    public IEnumerator fillAmountAni(Image go, float endvalue, float time)
+    {
+        yield return new WaitForEndOfFrame();
+        float elspetime = 0.0f;
+        float startvalue = go.fillAmount;
+
+        while (elspetime < time)
+        {
+            float Temp;
+            elspetime += Time.deltaTime;
+
+            if (elspetime >= time)
+                elspetime = time;
+
+            Temp = startvalue + (endvalue - startvalue) * (elspetime / time);
+            go.fillAmount = Temp;
+            yield return new WaitForEndOfFrame();
+        }
+    }
 }
