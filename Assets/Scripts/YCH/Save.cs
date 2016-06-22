@@ -4,14 +4,12 @@ using System.IO;
 using System.Text;
 
 /// <summary>
-/// - 텍스트 파일에 키값과 데이터 저장
-/// - 키값에 해당하는 데이터를 반환
 /// - 암호화
 /// </summary>
 
 public class Save : MonoBehaviour
 {
-    public static Save instance = new Save();
+    public static Save instance;
 
     private string sFilePath;    // 데이터 저장할 파일 경로
     private FileStream  fsSaveFile;
@@ -19,13 +17,14 @@ public class Save : MonoBehaviour
     private StreamReader srDataRead;
 
     // Use this for initialization
-
-    Save()
+    void Awake()
     {
+        instance = this;
         sFilePath = "Assets/Resources/SAVEFILE.txt";
 
-        // SAVEFILE.txt 가 존재하는지 확인
+        
         FileInfo Info = new FileInfo(sFilePath);
+        // SAVEFILE.txt 가 존재하는지 확인
         if (!Info.Exists)
         {
             // SAVEFILE.txt 가 존재하지 않아 생성
