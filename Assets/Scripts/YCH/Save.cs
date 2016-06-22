@@ -1,113 +1,101 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System;
 using System.IO;
 using System.Text;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 
-/// <summary>
-/// - 암호화
-/// </summary>
+public enum KEY
+{
+    SCORE = 0,
+    HIGHSCORE,
+
+    MAX
+}
 
 public class Save : MonoBehaviour
 {
-    public static Save instance;
-
-    private string sFilePath;    // 데이터 저장할 파일 경로
-    private FileStream  fsSaveFile;
-    private StreamWriter swDataWrite;
-    private StreamReader srDataRead;
+    private static List<string> sKeyList = new List<string>();
+    private static bool bInit;
 
     // Use this for initialization
     void Awake()
     {
-        instance = this;
-        sFilePath = "Assets/Resources/SAVEFILE.txt";
+        DontDestroyOnLoad(gameObject);
 
+        bInit = false;
+    }
+
+    public static void SaveData<T>(KEY eKey, T Data)
+    {
+        // ---------------------------
+        // 암호화는 이 부분에서 진행
         
-        FileInfo Info = new FileInfo(sFilePath);
-        // SAVEFILE.txt 가 존재하는지 확인
-        if (!Info.Exists)
-        {
-            // SAVEFILE.txt 가 존재하지 않아 생성
-            File.Create(sFilePath);
-        }
+        // ---------------------------
+
+        BinaryFormatter bFormatter = new BinaryFormatter();
+        MemoryStream memStream = new MemoryStream();
+
+        bFormatter.Serialize(memStream, Data);
+
+        PlayerPrefs.SetString(GetKey(eKey), Convert.ToBase64String(memStream.GetBuffer()));
     }
 
-    // 키값에 해당하는 위치에 데이터 저장. 키값이 없으면 새로 생성
-    public void SetData(string sKey, string sData)
+    public static T LoadData<T>(KEY eKey)
     {
-        fsSaveFile = new FileStream(sFilePath, FileMode.Open, FileAccess.Read);
-        srDataRead = new StreamReader(fsSaveFile);
+        string sTemp;
+        T temp = default(T);
 
-        string sAllText;
-        string[] sSplit_1;
-        string[] sSplit_2 = new string[2];
-        char[] charsplit = new char[] { '\r', '\n' };
+        sTemp = PlayerPrefs.GetString(GetKey(eKey));
 
-        sAllText = srDataRead.ReadToEnd();
-        sSplit_1 = sAllText.Split(charsplit);
-        for (int i = 0; i < sSplit_1.Length; i++)
+
+        if (!string.IsNullOrEmpty(sTemp))
         {
-            sSplit_2 = sSplit_1[i].Split('\t');
-            if (sSplit_2[0] == sKey)
-            {
-                srDataRead.Close();
+            BinaryFormatter bFormatter = new BinaryFormatter();
+            MemoryStream memStream = new MemoryStream(Convert.FromBase64String(sTemp));
 
-                sSplit_2[1] = sData;
-                sSplit_1[i] = sSplit_2[0] + '\t' + sSplit_2[1];
-
-                fsSaveFile = new FileStream(sFilePath, FileMode.Create, FileAccess.Write);
-                swDataWrite = new StreamWriter(fsSaveFile, Encoding.Unicode);
-                for (int j = 0; j < sSplit_1.Length; j++)
-                {
-                    //string sTemp = sSplit_1[j].Split('\r');
-
-                    if (sSplit_1[j] != "")
-                        swDataWrite.WriteLine(sSplit_1[j]);
-                }
-                swDataWrite.Close();
-                fsSaveFile.Close();
-                return;
-            }
+            temp = (T)bFormatter.Deserialize(memStream);
+        }
+        else
+        {
+            Debug.Log("Data is Empty. (Key : " + eKey + ")");
         }
 
-        srDataRead.Close();
-
-        fsSaveFile = new FileStream(sFilePath, FileMode.Append, FileAccess.Write);
-        swDataWrite = new StreamWriter(fsSaveFile, Encoding.Unicode);
-        swDataWrite.WriteLine(sKey + '\t' + sData);
-        swDataWrite.Close();
-        fsSaveFile.Close();
-        return;
+        return temp;
     }
 
-    // 키값에 해당하는 데이터를 반환
-    public string GetData(string sKey)
+    private static void Init()
     {
-        fsSaveFile = new FileStream(sFilePath, FileMode.Open, FileAccess.Read);
-        srDataRead = new StreamReader(fsSaveFile);
+        TextAsset txtFile = (TextAsset)Resources.Load("SAVEFILE");
 
-        string sAllText;
-        string[] sSplit_1;
-        string[] sSplit_2 = new string[2];
-        char[] charsplit = new char[] { '\r', '\n' };
-
-        sAllText = srDataRead.ReadToEnd();
-        sSplit_1 = sAllText.Split(charsplit);
-
-        for (int i = 0; i < sSplit_1.Length; i++)
+        if (txtFile != null)
         {
-            sSplit_2 = sSplit_1[i].Split('\t');
-            if (sSplit_2[0] == sKey)
-            {
-                srDataRead.Close();
-                fsSaveFile.Close();
+            char[] cSplitTarget1 = new char[] { '\n', '\r' };
+            char[] cSplitTarget2 = new char[] { '\t' };
+            string[] sText1;
+            string[] sText2;
 
-                return sSplit_2[1];
+            sText1 = txtFile.text.Split(cSplitTarget1, System.StringSplitOptions.RemoveEmptyEntries);
+
+            for (int i = 0; i < (int)KEY.MAX; i++)
+            {
+                sText2 = sText1[i].Split(cSplitTarget2, System.StringSplitOptions.RemoveEmptyEntries);
+
+                if (sText2[1] == null)
+                    break;
+
+                sKeyList.Add(sText2[1]);
             }
         }
+        bInit = true;
+    }
 
-        srDataRead.Close();
-        fsSaveFile.Close();
-        return null;
+    private static string GetKey(KEY eKey)
+    {
+        if (!bInit || sKeyList == null)
+            Init();
+
+        return sKeyList[(int)eKey];
     }
 }
