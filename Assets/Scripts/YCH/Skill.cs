@@ -27,7 +27,7 @@ public class Skill : MonoBehaviour
     private Vector2 m_vec2StartPos;     // 스킬 시작 지점
     private Vector2 m_vec2ClickPnt;     // 화면 클릭 지점 저장 변수
     private TrailRenderer m_trSkillEff; // 스킬 효과 연출용 트레일 렌더러
-    private float m_fMapSpeed;            // 맵 움직이는 속도
+    private float m_fMapSpeed;          // 맵 움직이는 속도
     private bool m_bUse;                // 스킬이 사용중인지 체크하는 변수
     private bool m_bCoolTime;           // 스킬이 쿨타임인지 체크하는 변수
     private bool m_bClick;              // 마우스 클릭이 됐었는지 체크하는 변수
@@ -46,7 +46,10 @@ public class Skill : MonoBehaviour
 
     void Start()
     {
-        
+        m_trSkillEff.enabled = false;
+
+        Save.SaveData<string>(KEY.SCORE, "asdf");
+        m_sTest = Save.LoadData<string>(KEY.SCORE);
     }
 
     // Update is called once per frame
@@ -89,7 +92,7 @@ public class Skill : MonoBehaviour
                 }
             }
         }
-    }      
+    }
 
     public void UseSkill(DIRECTION direction)
     {
@@ -149,7 +152,7 @@ public class Skill : MonoBehaviour
             gameObject.transform.localPosition.Set(gameObject.transform.localPosition.x, 0.0f, gameObject.transform.localPosition.z);
         }
 
-        m_bUse = false;        
+        m_bUse = false;
     }
 
     // 스킬 쿨타임을 재는 기능
