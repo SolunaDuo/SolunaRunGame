@@ -4,13 +4,18 @@ using System.Collections;
 public class Hundle : MonoBehaviour
 {
     public GameObject[] obj_Hundles;    // 장애물들
+    public Transform[] tr_Hundles;    // 장애물들
 
     public float[] fDropHundles;           // 떨어지는 장애물이 언제 생성될지
 
     private int nDropidx = 0;
+
+    private Transform tr_topHundle; // 가장 높은 장애물
     // Use this for initialization
     void Start()
     {
+        tr_Hundles = new Transform[gameObject.transform.childCount];
+        tr_Hundles = gameObject.transform.GetComponentsInChildren<Transform>();
     }
 
     // Update is called once per frame
@@ -65,5 +70,26 @@ public class Hundle : MonoBehaviour
 
         HurdleMnager.instance.obj_Drop.gameObject.SetActive(false);
         HurdleMnager.instance.obj_Drop.transform.localPosition = new Vector3(0.0f, 7.41f, 0.0f);
+    }
+
+    void SetTopHundle()
+    {
+        Transform obj_temp = tr_Hundles[0];
+
+        //0번째는 자기 자신
+        for (int i=1; i< tr_Hundles.Length;++i)
+        {
+            if (obj_temp.transform.localPosition.y <= tr_Hundles[i].localPosition.y)
+                obj_temp = tr_Hundles[i];
+        }
+        tr_topHundle = obj_temp;
+    }
+
+   public Transform GetTopTran()
+    {
+        if (tr_topHundle == null)
+            SetTopHundle();
+
+        return tr_topHundle;
     }
 }

@@ -49,9 +49,9 @@ public class HurdleMnager : MonoBehaviour {
                 yield return new WaitForEndOfFrame();
                 obj_Hurdles[nCurrent].transform.localPosition -= new Vector3(0.0f, GameManager.instance.fGlobalSpeed * Time.deltaTime);
 
-                if (obj_Hurdles[nCurrent].transform.localPosition.y <= -(fRange * 2f)) // 장애물 길이 개선 필요
+                if (isHundleCheck(Hurdles_infos[nCurrent].GetTopTran(), obj_Hurdles[nCurrent].transform) ) // 장애물 길이 개선 필요
                 {
-                    obj_Hurdles[nCurrent].transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+                    obj_Hurdles[nCurrent].transform.localPosition = new Vector3(0.0f, 1.7f, 0.0f);
                     obj_Hurdles[nCurrent].SetActive(false);
                     nCurrent = Random.Range(0, obj_Hurdles.Length);
                     // 장애물 다시 설정
@@ -60,6 +60,15 @@ public class HurdleMnager : MonoBehaviour {
             }
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    bool isHundleCheck(Transform topobj, Transform curobj)
+    {
+        // 가장 높은 오브젝트가 화면에서 사라졌을 경우 true
+        if (topobj.localPosition.y + curobj.localPosition.y >= -6.7f)
+            return false;
+        else
+            return true;
     }
 
     // 장애물과 충동했을 경우
