@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
 
 public enum KEY
 {
@@ -16,7 +17,8 @@ public enum KEY
 
 public class Save : MonoBehaviour
 {
-    private static List<string> sKeyList = new List<string>();
+    private static List<string> sKeyList = new List<string>();  // 데이터를 찾을 키값 저장 리스트
+    private static byte[] btSecKey; // 암호화 키 저장 배열
     private static bool bInit;
 
     // Use this for initialization
@@ -25,19 +27,21 @@ public class Save : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         bInit = false;
+        btSecKey = ASCIIEncoding.ASCII.GetBytes("btSecKey");    // 암호화 키
     }
 
     public static void SaveData<T>(KEY eKey, T Data)
     {
-        // ---------------------------
-        // 암호화는 이 부분에서 진행
-        
-        // ---------------------------
-
         BinaryFormatter bFormatter = new BinaryFormatter();
         MemoryStream memStream = new MemoryStream();
 
         bFormatter.Serialize(memStream, Data);
+
+        // ---------------------------
+        // 암호화는 이 부분에서 진행
+        //string sData;
+        //sData = Encrypt(Convert.ToBase64String(memStream.GetBuffer()));
+        // ---------------------------
 
         PlayerPrefs.SetString(GetKey(eKey), Convert.ToBase64String(memStream.GetBuffer()));
     }
@@ -48,6 +52,7 @@ public class Save : MonoBehaviour
         T temp = default(T);
 
         sTemp = PlayerPrefs.GetString(GetKey(eKey));
+        //sTemp = Decrypt(sTemp);
 
 
         if (!string.IsNullOrEmpty(sTemp))
@@ -97,5 +102,41 @@ public class Save : MonoBehaviour
             Init();
 
         return sKeyList[(int)eKey];
+    }
+
+    private static string Encrypt (string sData)
+    {
+        MemoryStream memStream = new MemoryStream();
+        RC2 rc2 = new RC2CryptoServiceProvider();
+
+        rc2.Key = btSecKey;
+        rc2.IV = btSecKey;
+
+        CryptoStream ctStream = new CryptoStream(memStream, rc2.CreateEncryptor(), CryptoStreamMode.Write);
+
+        byte[] btData = Encoding.UTF8.GetBytes(sData.ToCharArray());
+
+        ctStream.Write(btData, 0, btData.Length);
+        ctStream.FlushFinalBlock();
+
+        return Convert.ToBase64String(memStream.GetBuffer());
+    }
+
+    private static string Decrypt(string sData)
+    {
+        MemoryStream memStream = new MemoryStream();
+        RC2 rc2 = new RC2CryptoServiceProvider();
+
+        rc2.Key = btSecKey;
+        rc2.IV = btSecKey;
+
+        CryptoStream ctStream = new CryptoStream(memStream, rc2.CreateDecryptor(), CryptoStreamMode.Read);
+
+        byte[] btData = Convert.FromBase64String(sData);
+
+        ctStream.Read(btData, 0, btData.Length);
+        ctStream.FlushFinalBlock();
+
+        return Encoding.UTF8.GetString(memStream.GetBuffer());
     }
 }
