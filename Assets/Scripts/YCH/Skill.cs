@@ -19,8 +19,7 @@ public class Skill : MonoBehaviour
     public float m_fPlayer_Y;            // 스킬 쓰고 복귀할 위치의 y좌표
     public float m_fSkillLenth;          // 스킬 진행되는 시간
     public float m_fCoolTime;            // 스킬 쿨타임
-
-    public string m_sTest;  // 테스트 변수입니다. 신경ㄴㄴ
+    public float m_fDoubleClickTerm;     // 더블 클릭 체크 시간
 
     private DIRECTION m_eSkillDir;      // 스킬 사용 방향
     private Vector2 m_vec2TargetPos;    // 스킬 사용시 도착 지점 저장 변수
@@ -30,7 +29,16 @@ public class Skill : MonoBehaviour
     private float m_fMapSpeed;          // 맵 움직이는 속도
     private bool m_bUse;                // 스킬이 사용중인지 체크하는 변수
     private bool m_bCoolTime;           // 스킬이 쿨타임인지 체크하는 변수
+    private bool m_bDoubleClick;             // 마우스 더블 클릭이 됐었는지 체크하는 변수
     private bool m_bClick;              // 마우스 클릭이 됐었는지 체크하는 변수
+
+    public bool isClick
+    {
+        get
+        {
+            return m_bClick;
+        }
+    }
 
     // Use this for initialization
     void Awake()
@@ -42,14 +50,12 @@ public class Skill : MonoBehaviour
         m_bCoolTime = false;
         m_bUse = false;
         m_bClick = false;
+        m_bDoubleClick = false;
     }
 
     void Start()
     {
         m_trSkillEff.enabled = false;
-
-        Save.SaveData<string>(KEY.SCORE, "asdf");
-        m_sTest = Save.LoadData<string>(KEY.SCORE);
     }
 
     // Update is called once per frame
@@ -71,7 +77,8 @@ public class Skill : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0))
         {
-            if (!m_bClick)
+            m_bClick = true;
+            if (!m_bDoubleClick)
             {
                 m_vec2ClickPnt = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
                 StartCoroutine(DClickTimer());
@@ -170,12 +177,12 @@ public class Skill : MonoBehaviour
     // 더블 클릭 타임을 재는 기능
     IEnumerator DClickTimer()
     {
-        m_bClick = true;
-
+        m_bDoubleClick = true;
         Debug.Log("ClickTimer Start");
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(m_fDoubleClickTerm);
 
         Debug.Log("ClickTimer Over");
+        m_bDoubleClick = false;
         m_bClick = false;
     }
 }
