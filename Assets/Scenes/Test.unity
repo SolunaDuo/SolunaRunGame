@@ -248,13 +248,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 11487810, guid: f432efa3316d36f47ab00302d6f28a15, type: 2}
-      propertyPath: power
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 11487810, guid: f432efa3316d36f47ab00302d6f28a15, type: 2}
-      propertyPath: isFix
-      value: 0
+    - target: {fileID: 11483806, guid: f432efa3316d36f47ab00302d6f28a15, type: 2}
+      propertyPath: m_fDoubleClickTerm
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f432efa3316d36f47ab00302d6f28a15, type: 2}
