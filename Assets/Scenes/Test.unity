@@ -218,7 +218,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 471186, guid: f432efa3316d36f47ab00302d6f28a15, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.06
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 471186, guid: f432efa3316d36f47ab00302d6f28a15, type: 2}
       propertyPath: m_LocalPosition.y
@@ -251,6 +251,22 @@ Prefab:
     - target: {fileID: 11483806, guid: f432efa3316d36f47ab00302d6f28a15, type: 2}
       propertyPath: m_fDoubleClickTerm
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 11487810, guid: f432efa3316d36f47ab00302d6f28a15, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11483806, guid: f432efa3316d36f47ab00302d6f28a15, type: 2}
+      propertyPath: m_vec2TargetPos_L.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11483806, guid: f432efa3316d36f47ab00302d6f28a15, type: 2}
+      propertyPath: m_vec2TargetPos_R.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9659624, guid: f432efa3316d36f47ab00302d6f28a15, type: 2}
+      propertyPath: m_StartWidth
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f432efa3316d36f47ab00302d6f28a15, type: 2}
