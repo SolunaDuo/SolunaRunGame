@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public static class Utils
+namespace Assets.Utils
 {
     /// <summary>
     /// Listen을 하고 있다가 Send를 하면 받는다

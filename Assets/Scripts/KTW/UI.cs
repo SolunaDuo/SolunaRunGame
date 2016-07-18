@@ -14,12 +14,12 @@ public class UI : MonoBehaviour
 
     void Update()
     {
-        Utils.Event.Litsen( "start_game", StartGame);
+        Assets.Utils.Event.Litsen( "start_game", StartGame);
     }
 
     private void StartGame( object[] args )
     {
         startText.SetActive( false );
-        Utils.Event.Remove( "start_game", StartGame );
+        Assets.Utils.Event.Remove( "start_game", StartGame );
     }
 }

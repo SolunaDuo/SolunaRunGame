@@ -1,29 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public static class GameState
+namespace Assets.Game.State
 {
-    public enum StateAtt
+    public static class GameState
     {
-        READY,
-        START,
-        OVER,
-    }
+        public enum StateAtt
+        {
+            READY,
+            START,
+            OVER,
+        }
 
-    private static StateAtt currentState;
+        private static StateAtt currentState;
 
-    public static void SetState( StateAtt st )
-    {
-        currentState = st;
-    }
+        public static void SetState( StateAtt st )
+        {
+            currentState = st;
+        }
 
-    public static StateAtt GetState()
-    {
-        return currentState;
-    }
+        public static StateAtt GetState()
+        {
+            return currentState;
+        }
 
-    public static bool IsEqualState( StateAtt st )
-    {
-        return ( currentState == st );
+        public static bool IsEqualState( StateAtt st )
+        {
+            return ( currentState == st );
+        }
     }
 }
