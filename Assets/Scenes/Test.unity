@@ -558,6 +558,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 154626, guid: 3fe149b5f85684e4cb37b66ee629fbab, type: 2}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3fe149b5f85684e4cb37b66ee629fbab, type: 2}
   m_IsPrefabParent: 0
@@ -752,22 +756,6 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 433774, guid: 9ad3101527782594d9774e7c0bf5f8bd, type: 2}
       propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 179850, guid: 9ad3101527782594d9774e7c0bf5f8bd, type: 2}
-      propertyPath: m_Name
-      value: Hundle
-      objectReference: {fileID: 0}
-    - target: {fileID: 433774, guid: 9ad3101527782594d9774e7c0bf5f8bd, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 433774, guid: 9ad3101527782594d9774e7c0bf5f8bd, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6113758, guid: 9ad3101527782594d9774e7c0bf5f8bd, type: 2}
-      propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
