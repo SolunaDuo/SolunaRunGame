@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour {
     public Text tScroe;
     public Image iFeverGage;
 
+    
+    // 코멘트만 남겨둠. 이거 GameState 만들어 둔거 있는데 나중에 그거 써도 될듯
     public bool bPlayMode = true; // 플레이 중인지 확인
     public float fGlobalSpeed = 10f; // 맵 스피드
 

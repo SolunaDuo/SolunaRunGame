@@ -62,7 +62,7 @@ public class TestScript_1 : MonoBehaviour
     {
         if(!isStartGame)
         {
-            Utils.Event.Send( "start_game" );
+            Assets.Utils.Event.Send( "start_game" );
             isStartGame = true;
         }
         playerRig.isKinematic = false;
