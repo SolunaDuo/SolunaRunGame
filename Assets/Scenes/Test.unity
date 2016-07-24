@@ -247,7 +247,8 @@ MonoBehaviour:
   rightEndPos: {x: 2.69, y: 0, z: 0}
   isJumping: 0
   jumpHeight: 2
-  speed: 10
+  speed: 3
+  targetMinus: 1.5
 --- !u!96 &137257840
 TrailRenderer:
   m_ObjectHideFlags: 0
@@ -344,9 +345,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: -0.037971735, y: -0.2733965}
+  m_Offset: {x: -0.067780286, y: -0.2733965}
   serializedVersion: 2
-  m_Size: {x: 1.8623576, y: 2.3332071}
+  m_Size: {x: 1.680973, y: 2.3332071}
 --- !u!212 &137257844
 SpriteRenderer:
   m_ObjectHideFlags: 0

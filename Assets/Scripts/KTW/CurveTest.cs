@@ -25,12 +25,14 @@ public class CurveTest : MonoBehaviour {
     [SerializeField]
     private float speed = 0.0f;
 
+    [SerializeField]
+    private float targetMinus = 0.0f;
+
     // Use this for initialization
     void Awake() {
         startPos = transform.position;
-        leftEndPos.x += 0.5f;
-        rightEndPos.x -= 0.5f;
-        GameState.SetState( GameState.StateAtt.READY );
+        leftEndPos.x += targetMinus;
+        rightEndPos.x -= targetMinus;
     }
 
     // Update is called once per frame
@@ -50,8 +52,8 @@ public class CurveTest : MonoBehaviour {
     }
 
     public void Jumping() {
+        t += Time.deltaTime * speed;
         if( startCurve ) {
-            t += Time.deltaTime * speed;
             Vector3 center = ( startPos + endPos ) * 0.5f;
             center.y += jumpHeight;
 
@@ -61,25 +63,21 @@ public class CurveTest : MonoBehaviour {
             transform.position = p;
         }
         else {
-            t += Time.deltaTime * speed;
             var p = GetLinearCurve( startPos, endPos, t );
             transform.position = p;
         }
-    }
-
-    private Vector3 GetLinearCurve(Vector3 p1, Vector3 p2, float t ) {
-        var result = ( ( 1f - t ) * p1 ) + ( t * p2 );
-        return result;
-    }
-
-    void OnTriggerEnter2D( Collider2D pCollider ) {
-        if( pCollider.gameObject.name.Contains( "Wall" ) ) {
-            isJumping = false;
-            if( startCurve == false ) {
+        if(t > 1.0f ) {
+            t = 0.0f;
+            if(startCurve == false ) {
                 startCurve = true;
             }
+            isJumping = false;
             startPos = transform.position;
-            t = 0;
         }
+    }
+
+    private Vector3 GetLinearCurve( Vector3 p1, Vector3 p2, float t ) {
+        var result = ( ( 1f - t ) * p1 ) + ( t * p2 );
+        return result;
     }
 }
