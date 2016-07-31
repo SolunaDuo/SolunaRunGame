@@ -16,6 +16,10 @@ public class Hundle : MonoBehaviour
     {
         tr_Hundles = new Transform[gameObject.transform.childCount];
         tr_Hundles = gameObject.transform.GetComponentsInChildren<Transform>();
+        for(int i=0; i < tr_Hundles.Length; ++i )
+        {
+            obj_Hundles[i] = tr_Hundles[i].gameObject;
+        }
     }
 
     // Update is called once per frame
@@ -35,6 +39,11 @@ public class Hundle : MonoBehaviour
 
     public void Init()
     {
+        for(int i=0; i< obj_Hundles.Length; ++i)
+        {
+            obj_Hundles[i].transform.position = tr_Hundles[i].position;
+            obj_Hundles[i].SetActive(true);
+        }
         gameObject.SetActive(true);
         transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
 

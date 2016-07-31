@@ -3,6 +3,9 @@ using System.Collections;
 
 public class MapDown : MonoBehaviour {
     public GameObject[] obj_Maps;
+    public GameObject[] obj_Bgs;
+    public float[] f_BgSpeeds;
+
     public float Range;
 
     
@@ -27,6 +30,12 @@ public class MapDown : MonoBehaviour {
             while (GameManager.instance.bPlayMode) // 게임 시작하면 움직이게 변경
             {
                 yield return new WaitForEndOfFrame();
+                
+                // 배경 스피드는 따로 움직임
+                for(int i=0; i<obj_Bgs.Length;++i)
+                {
+                    obj_Bgs[i].transform.localPosition -= new Vector3(0.0f, f_BgSpeeds[i] * Time.deltaTime);
+                }
 
                 for (int i = 0; i < obj_Maps.Length; ++i)
                     obj_Maps[i].transform.localPosition -= new Vector3(0.0f, GameManager.instance.fGlobalSpeed * Time.deltaTime);
