@@ -14,7 +14,7 @@ public class HurdleMnager : MonoBehaviour {
     public float Range;
 
     int nCurrent = 0; // 현재 장애물
-
+    
     void Awake()
     {
         instance = this;
@@ -69,6 +69,13 @@ public class HurdleMnager : MonoBehaviour {
             return false;
         else
             return true;
+    }
+    
+    // 장애물 삭제
+    public void DeleteHurdle(GameObject DeleteObj)
+    {
+        // 애니메이션 나올시 추가
+        DeleteObj.gameObject.SetActive(false);
     }
 
     // 장애물과 충동했을 경우
