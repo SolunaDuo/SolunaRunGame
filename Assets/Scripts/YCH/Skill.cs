@@ -111,6 +111,19 @@ public class Skill : MonoBehaviour
         }
     }
 
+    void OnCollision2DEntry ( Collision2D coll )
+    {
+        // 허들과 충돌 시 플레이어가 스킬을 사용중인경우
+        // 허들을 파괴하고 점수(+10)를 증가시는 기능 추가
+        if(coll.gameObject.name == ("Hundle"))
+        {
+            if ( m_bUse )
+            {
+                
+            }
+        }
+    }
+
     public void UseSkill ( DIRECTION direction )
     {
         if ( m_bUse || m_bCoolTime )
