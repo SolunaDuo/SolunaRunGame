@@ -18,7 +18,7 @@ public class HundleTest : MonoBehaviour {
     {
         if (col.tag.Equals("Player"))
         {
-            GameManager.instance.bPlayMode = false;
+            //GameManager.instance.bPlayMode = false;
         }
     }
 }
