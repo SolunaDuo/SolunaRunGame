@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CurveTest : MonoBehaviour {
+public class PlayerMove : MonoBehaviour {
 
-    [SerializeField]
     private Vector3 startPos;
     private Vector3 endPos;
 
@@ -23,7 +22,7 @@ public class CurveTest : MonoBehaviour {
     private float jumpHeight = 2f;
 
     [SerializeField]
-    private float speed = 0.0f;
+    private float speed = 3.0f;
 
     [SerializeField]
     private float targetMinus = 0.0f;
@@ -31,6 +30,9 @@ public class CurveTest : MonoBehaviour {
     // Use this for initialization
     void Awake() {
         startPos = transform.position;
+
+        targetMinus = transform.localScale.x + 0.5f;
+
         leftEndPos.x += targetMinus;
         rightEndPos.x -= targetMinus;
     }
@@ -56,14 +58,10 @@ public class CurveTest : MonoBehaviour {
         if( startCurve ) {
             Vector3 center = ( startPos + endPos ) * 0.5f;
             center.y += jumpHeight;
-
-            var e = GetLinearCurve( startPos, center, t );
-            var f = GetLinearCurve( center, endPos, t );
-            var p = GetLinearCurve( e, f, t );
-            transform.position = p;
+            transform.position = Util.Math.GetBezierCurve( startPos, center, endPos, t );
         }
         else {
-            var p = GetLinearCurve( startPos, endPos, t );
+            var p = Util.Math.GetLinearCurve( startPos, endPos, t );
             transform.position = p;
         }
         if(t > 1.0f ) {
@@ -74,10 +72,5 @@ public class CurveTest : MonoBehaviour {
             isJumping = false;
             startPos = transform.position;
         }
-    }
-
-    private Vector3 GetLinearCurve( Vector3 p1, Vector3 p2, float t ) {
-        var result = ( ( 1f - t ) * p1 ) + ( t * p2 );
-        return result;
     }
 }

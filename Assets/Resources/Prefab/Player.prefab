@@ -138,12 +138,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPos: {x: 0, y: 0, z: 0}
-  leftEndPos: {x: -2.73, y: 0, z: 0}
-  rightEndPos: {x: 2.69, y: 0, z: 0}
+  leftEndPos: {x: -3.1, y: 0, z: 0}
+  rightEndPos: {x: 3.1, y: 0, z: 0}
   isJumping: 0
   jumpHeight: 2
   speed: 3
-  targetMinus: 1.5
+  targetMinus: 0
 --- !u!114 &114000013683916482
 MonoBehaviour:
   m_ObjectHideFlags: 1

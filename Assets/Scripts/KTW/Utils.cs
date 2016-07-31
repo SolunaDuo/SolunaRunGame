@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Assets.Utils
+namespace Util
 {
     /// <summary>
     /// Listen을 하고 있다가 Send를 하면 받는다
@@ -60,6 +60,22 @@ namespace Assets.Utils
             {
                 actions( args );
             }
+        }
+    }
+    public static class Math {
+        public static Vector3 GetLinearCurve( Vector3 p1, Vector3 p2, float t ) {
+            var result = ( ( 1f - t ) * p1 ) + ( t * p2 );
+            return result;
+        }
+
+        public static Vector3 GetBezierCurve( Vector3 p1, Vector3 p2, Vector3 p3, float t ) {
+            Vector3 result = Vector3.zero;
+
+            var l1 = GetLinearCurve( p1, p2, t );
+            var l2 = GetLinearCurve( p2, p3, t );
+            result = GetLinearCurve( l1, l2, t );
+
+            return result;
         }
     }
 }
