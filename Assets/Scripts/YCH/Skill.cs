@@ -28,9 +28,13 @@ public class Skill : MonoBehaviour
     private Vector2 m_vec2ClickPnt;     // 화면 클릭 지점 저장 변수
     private TrailRenderer m_trSkillEff; // 스킬 효과 연출용 트레일 렌더러
     private float m_fMapSpeed;          // 맵 움직이는 속도
+    [SerializeField]
     private bool m_bUse;                // 스킬이 사용중인지 체크하는 변수
+    [SerializeField]
     private bool m_bCoolTime;           // 스킬이 쿨타임인지 체크하는 변수
+    [SerializeField]
     private bool m_bDoubleClick;        // 마우스 더블 클릭이 됐었는지 체크하는 변수
+    [SerializeField]
     private bool m_bClick;              // 마우스 클릭이 됐었는지 체크하는 변수
 
     public bool isClick
@@ -88,6 +92,7 @@ public class Skill : MonoBehaviour
         if ( Input.GetMouseButtonDown ( 0 ) )
         {
             m_bClick = true;
+            Debug.Log ( Camera.main.ScreenToWorldPoint ( new Vector3 ( Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane ) ).x );
             if ( !m_bDoubleClick )
             {
                 m_vec2ClickPnt = Camera.main.ScreenToWorldPoint ( new Vector3 ( Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane ) );
@@ -95,12 +100,14 @@ public class Skill : MonoBehaviour
             }
             else
             {
+                // 오른쪽 화면 클릭
                 if ( m_vec2ClickPnt.x > 0.0f &&
                    Camera.main.ScreenToWorldPoint ( new Vector3 ( Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane ) ).x > 0.0f )
                 {
                     m_eSkillDir = DIRECTION.RIGHT;
                     UseSkill ();
                 }
+                // 왼쪽 화면 클릭
                 else if ( m_vec2ClickPnt.x < 0.0f &&
                         Camera.main.ScreenToWorldPoint ( new Vector3 ( Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane ) ).x < 0.0f )
                 {
@@ -111,15 +118,14 @@ public class Skill : MonoBehaviour
         }
     }
 
-    void OnCollision2DEntry ( Collision2D coll )
+    void OnTriggerEnter2D ( Collider2D coll )
     {
-        // 허들과 충돌 시 플레이어가 스킬을 사용중인경우
-        // 허들을 파괴하고 점수(+10)를 증가시는 기능 추가
-        if(coll.gameObject.name == ("Hundle"))
+        Debug.Log ( "Coll!" );
+        if(coll.gameObject.tag == "Hundle")
         {
             if ( m_bUse )
             {
-                
+                HurdleMnager.instance.DeleteHurdle ( coll.gameObject );
             }
         }
     }
@@ -172,7 +178,7 @@ public class Skill : MonoBehaviour
             m_trSkillEff.enabled = false;
 
             StartCoroutine ( CoolTimeTimer () );
-
+            m_bUse = false;
             // y좌표 0.0f 될때까지 내려감
             while ( gameObject.transform.localPosition.y > m_fPlayer_Y )
             {
@@ -191,10 +197,10 @@ public class Skill : MonoBehaviour
     {
         m_bCoolTime = true;
 
-        Debug.Log ( "CoolTime Start" );
+        //Debug.Log ( "CoolTime Start" );
         yield return new WaitForSeconds ( m_fCoolTime );
 
-        Debug.Log ( "CoolTime Over" );
+        //Debug.Log ( "CoolTime Over" );
         m_bCoolTime = false;
     }
 
@@ -202,10 +208,10 @@ public class Skill : MonoBehaviour
     IEnumerator DClickTimer ()
     {
         m_bDoubleClick = true;
-        Debug.Log ( "ClickTimer Start" );
+        //Debug.Log ( "ClickTimer Start" );
         yield return new WaitForSeconds ( m_fDoubleClickTerm );
 
-        Debug.Log ( "ClickTimer Over" );
+        //Debug.Log ( "ClickTimer Over" );
         m_bDoubleClick = false;
         m_bClick = false;
     }

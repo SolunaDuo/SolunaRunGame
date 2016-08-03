@@ -575,6 +575,31 @@ Prefab:
       propertyPath: rightEndPos.x
       value: 3.1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013683916482, guid: a251c3422602b5243af52ac2e84595a5,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012485271034, guid: a251c3422602b5243af52ac2e84595a5,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013683916482, guid: a251c3422602b5243af52ac2e84595a5,
+        type: 2}
+      propertyPath: m_vec2TargetPos_L.x
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013683916482, guid: a251c3422602b5243af52ac2e84595a5,
+        type: 2}
+      propertyPath: m_vec2TargetPos_R.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013683916482, guid: a251c3422602b5243af52ac2e84595a5,
+        type: 2}
+      propertyPath: m_fDoubleClickTerm
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a251c3422602b5243af52ac2e84595a5, type: 2}
   m_IsPrefabParent: 0
