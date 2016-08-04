@@ -16,7 +16,8 @@ public class Hundle : MonoBehaviour
     {
         tr_Hundles = new Transform[gameObject.transform.childCount];
         tr_Hundles = gameObject.transform.GetComponentsInChildren<Transform>();
-        for(int i=0; i < tr_Hundles.Length; ++i )
+        obj_Hundles = new GameObject[tr_Hundles.Length];
+        for (int i=0; i < tr_Hundles.Length; ++i )
         {
             obj_Hundles[i] = tr_Hundles[i].gameObject;
         }

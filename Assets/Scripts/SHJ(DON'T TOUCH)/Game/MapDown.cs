@@ -34,6 +34,10 @@ public class MapDown : MonoBehaviour {
                 // 배경 스피드는 따로 움직임
                 for(int i=0; i<obj_Bgs.Length;++i)
                 {
+                    if(obj_Bgs[i].transform.localPosition.y <= -20f)
+                    {
+                        continue;
+                    }
                     obj_Bgs[i].transform.localPosition -= new Vector3(0.0f, f_BgSpeeds[i] * Time.deltaTime);
                 }
 
