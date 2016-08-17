@@ -27,11 +27,18 @@ public class PlayerMove : MonoBehaviour {
     [SerializeField]
     private float targetMinus = 0.0f;
 
+    private Rigidbody2D rig;
+
     // Use this for initialization
     void Awake() {
         startPos = transform.position;
 
         targetMinus = transform.localScale.x + 0.5f;
+
+        leftEndPos = GameObject.Find( "Map_02" ).transform.Find( "LeftWall" ).position;
+        rightEndPos = GameObject.Find( "Map_02" ).transform.Find( "RightWall" ).position;
+
+        rig = GetComponent<Rigidbody2D>();
 
         leftEndPos.x += targetMinus;
         rightEndPos.x -= targetMinus;
@@ -39,11 +46,11 @@ public class PlayerMove : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if( Input.GetMouseButtonDown( 0 ) ) {
+        if( Input.GetKeyDown( KeyCode.A ) ) {
             isJumping = true;
             endPos = leftEndPos;
         }
-        else if( Input.GetMouseButtonDown( 1 ) ) {
+        else if( Input.GetKeyDown( KeyCode.D ) ) {
             isJumping = true;
             endPos = rightEndPos;
         }
@@ -64,9 +71,9 @@ public class PlayerMove : MonoBehaviour {
             var p = Util.Math.GetLinearCurve( startPos, endPos, t );
             transform.position = p;
         }
-        if(t > 1.0f ) {
+        if( t > 1.0f ) {
             t = 0.0f;
-            if(startCurve == false ) {
+            if( startCurve == false ) {
                 startCurve = true;
             }
             isJumping = false;
