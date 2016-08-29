@@ -28,13 +28,9 @@ public class Skill : MonoBehaviour
     private Vector2 m_vec2ClickPnt;     // 화면 클릭 지점 저장 변수
     private TrailRenderer m_trSkillEff; // 스킬 효과 연출용 트레일 렌더러
     private float m_fMapSpeed;          // 맵 움직이는 속도
-    [SerializeField]
     private bool m_bUse;                // 스킬이 사용중인지 체크하는 변수
-    [SerializeField]
     private bool m_bCoolTime;           // 스킬이 쿨타임인지 체크하는 변수
-    [SerializeField]
     private bool m_bDoubleClick;        // 마우스 더블 클릭이 됐었는지 체크하는 변수
-    [SerializeField]
     private bool m_bClick;              // 마우스 클릭이 됐었는지 체크하는 변수
 
     public bool isClick
@@ -60,7 +56,8 @@ public class Skill : MonoBehaviour
 
     void Start ()
     {
-        m_trSkillEff.enabled = false;
+        if( m_trSkillEff != null)
+            m_trSkillEff.enabled = false;
     }
 
     // Update is called once per frame
@@ -152,7 +149,6 @@ public class Skill : MonoBehaviour
         // 현재 위치의 x좌표와 목표 위치의 x좌표와 다를 경우만 함수 기능 실행
         if ( m_ePlayerDir != direction )
         {
-            Debug.Log ( "Call Function : Skill.SkillAnimation(" + direction.ToString () + ")" );
             m_bUse = true;
 
             if ( direction == DIRECTION.LEFT )
@@ -160,7 +156,9 @@ public class Skill : MonoBehaviour
             else if ( direction == DIRECTION.RIGHT )
                 m_vec2TargetPos = m_vec2TargetPos_R;
 
-            m_trSkillEff.enabled = true;
+            if ( m_trSkillEff != null )
+                m_trSkillEff.enabled = true;
+
             // 위로 이동
             float fElapseTime = 0.0f;
             Vector2 vec2TempPos = new Vector2 ();
@@ -175,7 +173,9 @@ public class Skill : MonoBehaviour
                 yield return new WaitForEndOfFrame ();
             }
             gameObject.transform.localPosition = m_vec2TargetPos;
-            m_trSkillEff.enabled = false;
+
+            if ( m_trSkillEff != null )
+                m_trSkillEff.enabled = false;
 
             StartCoroutine ( CoolTimeTimer () );
             m_bUse = false;
