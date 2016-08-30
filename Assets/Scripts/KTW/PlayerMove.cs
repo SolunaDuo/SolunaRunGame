@@ -100,6 +100,10 @@ public class PlayerMove : MonoBehaviour {
         }
     }
 
+    private void DoubleJumping() {
+
+    }
+
     private void JumpRotation() {
         animControl.Play( PlayerAnim.Animation.Jump );
         playerRenderer.flipX = ( j_dir != JumpDirection.RIGHT );
