@@ -14,24 +14,25 @@ public enum DIRECTION
 
 public class Skill : MonoBehaviour
 {
-    public Vector2 m_vec2TargetPos_L;    // 왼쪽으로 스킬 사용 시 도착 지점
-    public Vector2 m_vec2TargetPos_R;    // 오른쪽으로 스킬 사용 시 도착 지점
-    public float m_fPlayer_Y;            // 스킬 쓰고 복귀할 위치의 y좌표
-    public float m_fSkillLenth;          // 스킬 진행되는 시간
-    public float m_fCoolTime;            // 스킬 쿨타임
-    public float m_fDoubleClickTerm;     // 더블 클릭 체크 시간
+    public Vector2 m_vec2TargetPos_L;           // 왼쪽으로 스킬 사용 시 도착 지점
+    public Vector2 m_vec2TargetPos_R;           // 오른쪽으로 스킬 사용 시 도착 지점
+    public float m_fPlayer_Y;                   // 스킬 쓰고 복귀할 위치의 y좌표
+    public float m_fSkillLenth;                 // 스킬 진행되는 시간
+    public float m_fCoolTime;                   // 스킬 쿨타임
+    public float m_fDoubleClickTerm;            // 더블 클릭 체크 시간
 
-    private DIRECTION m_eSkillDir;      // 스킬 사용 방향
-    private DIRECTION m_ePlayerDir;     // 플레이어 오브젝트가 있는 위치
-    private Vector2 m_vec2TargetPos;    // 스킬 사용시 도착 지점 저장 변수
-    private Vector2 m_vec2StartPos;     // 스킬 시작 지점
-    private Vector2 m_vec2ClickPnt;     // 화면 클릭 지점 저장 변수
-    private TrailRenderer m_trSkillEff; // 스킬 효과 연출용 트레일 렌더러
-    private float m_fMapSpeed;          // 맵 움직이는 속도
-    private bool m_bUse;                // 스킬이 사용중인지 체크하는 변수
-    private bool m_bCoolTime;           // 스킬이 쿨타임인지 체크하는 변수
-    private bool m_bDoubleClick;        // 마우스 더블 클릭이 됐었는지 체크하는 변수
-    private bool m_bClick;              // 마우스 클릭이 됐었는지 체크하는 변수
+    private DIRECTION m_eSkillDir;              // 스킬 사용 방향
+    private DIRECTION m_ePlayerDir;             // 플레이어 오브젝트가 있는 위치
+    private Vector2 m_vec2TargetPos;            // 스킬 사용시 도착 지점 저장 변수
+    private Vector2 m_vec2StartPos;             // 스킬 시작 지점
+    private Vector2 m_vec2ClickPnt;             // 화면 클릭 지점 저장 변수
+    private TrailRenderer m_trSkillEff;         // 스킬 효과 연출용 트레일 렌더러
+    private SpriteRenderer m_srPlayerSprite;    // 플레이어 스프라이트 렌더러
+    private float m_fMapSpeed;                  // 맵 움직이는 속도
+    private bool m_bUse;                        // 스킬이 사용중인지 체크하는 변수
+    private bool m_bCoolTime;                   // 스킬이 쿨타임인지 체크하는 변수
+    private bool m_bDoubleClick;                // 마우스 더블 클릭이 됐었는지 체크하는 변수
+    private bool m_bClick;                      // 마우스 클릭이 됐었는지 체크하는 변수
 
     public bool isClick
     {
@@ -48,6 +49,7 @@ public class Skill : MonoBehaviour
         m_vec2StartPos = new Vector2 ();
         m_vec2ClickPnt = new Vector2 ();
         m_trSkillEff = gameObject.GetComponent<TrailRenderer> ();
+        m_srPlayerSprite = gameObject.GetComponent<SpriteRenderer> ();
         m_bCoolTime = false;
         m_bUse = false;
         m_bClick = false;
@@ -72,18 +74,6 @@ public class Skill : MonoBehaviour
         else if ( gameObject.transform.localPosition.x < 0.0f )
         {
             m_ePlayerDir = DIRECTION.LEFT;
-        }
-
-        // 테스트용 입력
-        if ( Input.GetKeyDown ( KeyCode.LeftArrow ) )
-        {
-            m_eSkillDir = DIRECTION.LEFT;
-            UseSkill ();
-        }
-        else if ( Input.GetKeyDown ( KeyCode.RightArrow ) )
-        {
-            m_eSkillDir = DIRECTION.RIGHT;
-            UseSkill ();
         }
 
         if ( Input.GetMouseButtonDown ( 0 ) )
@@ -151,6 +141,11 @@ public class Skill : MonoBehaviour
         {
             m_bUse = true;
 
+            m_srPlayerSprite.flipX = ( direction != DIRECTION.RIGHT );
+
+            int sign = ( direction == DIRECTION.LEFT ) ? 1 : -1;
+            transform.rotation = Quaternion.Euler ( 0, 0, ( 90f * sign ) );
+
             if ( direction == DIRECTION.LEFT )
                 m_vec2TargetPos = m_vec2TargetPos_L;
             else if ( direction == DIRECTION.RIGHT )
@@ -161,8 +156,8 @@ public class Skill : MonoBehaviour
 
             // 위로 이동
             float fElapseTime = 0.0f;
-            Vector2 vec2TempPos = new Vector2 ();
-            m_vec2StartPos = gameObject.transform.localPosition;
+            Vector2 vec2TempPos = gameObject.transform.localPosition;
+            //m_vec2StartPos = gameObject.transform.localPosition;
 
             while ( fElapseTime < m_fSkillLenth )
             {
@@ -182,11 +177,11 @@ public class Skill : MonoBehaviour
             // y좌표 0.0f 될때까지 내려감
             while ( gameObject.transform.localPosition.y > m_fPlayer_Y )
             {
-                //gameObject.transform.Translate(Vector2.down * Time.deltaTime * m_fMapSpeed, Space.World);
-                gameObject.transform.localPosition -= new Vector3 ( 0.0f, gameObject.transform.localPosition.y * m_fMapSpeed * Time.deltaTime );
+                gameObject.transform.Translate(Vector2.down * Time.deltaTime * m_fMapSpeed, Space.World);
                 yield return new WaitForEndOfFrame ();
             }
-            gameObject.transform.localPosition.Set ( gameObject.transform.localPosition.x, 0.0f, gameObject.transform.localPosition.z );
+            gameObject.transform.localPosition.Set ( gameObject.transform.localPosition.x, m_fPlayer_Y, gameObject.transform.localPosition.z );
+
         }
 
         m_bUse = false;
