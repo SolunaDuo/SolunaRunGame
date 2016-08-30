@@ -259,10 +259,6 @@ MonoBehaviour:
   m_fSkillLenth: 0
   m_fCoolTime: 0
   m_fDoubleClickTerm: 0
-  m_bUse: 0
-  m_bCoolTime: 0
-  m_bDoubleClick: 0
-  m_bClick: 0
 --- !u!96 &331188693
 TrailRenderer:
   m_ObjectHideFlags: 0
@@ -488,6 +484,7 @@ GameObject:
   - 95: {fileID: 694137882}
   - 114: {fileID: 694137883}
   - 114: {fileID: 694137884}
+  - 114: {fileID: 694137885}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -600,6 +597,23 @@ MonoBehaviour:
   jumpHeight: 2
   speed: 3
   targetMinus: 0
+--- !u!114 &694137885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 694137878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e636c2eb5208a9344b89e723871c86a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_vec2TargetPos_L: {x: -2, y: 2}
+  m_vec2TargetPos_R: {x: 2, y: 2}
+  m_fPlayer_Y: -2
+  m_fSkillLenth: 0.2
+  m_fCoolTime: 0
+  m_fDoubleClickTerm: 0.15
 --- !u!1001 &888987759
 Prefab:
   m_ObjectHideFlags: 0

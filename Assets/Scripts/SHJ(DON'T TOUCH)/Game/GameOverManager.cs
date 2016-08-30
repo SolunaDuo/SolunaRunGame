@@ -8,10 +8,13 @@ public class GameOverManager : MonoBehaviour {
 
     private Text tScroe;
 
+    [SerializeField]
     private Text    tReTry;
+    [SerializeField]
     private Image   iReTryBtn;
-
+    [SerializeField]
     private Text    tMainMenu;
+    [SerializeField]
     private Image   iMainMenuBtn;
 
     void Awake()
@@ -66,6 +69,16 @@ public class GameOverManager : MonoBehaviour {
             return;
         }
         tMainMenu.text = szmsg;
+    }
+
+    public void MainBtnClick()
+    {
+
+    }
+
+    public void ReTryBtnClick()
+    {
+
     }
 
 
