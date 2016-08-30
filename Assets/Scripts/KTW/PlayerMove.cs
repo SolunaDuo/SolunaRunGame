@@ -12,25 +12,38 @@ public class PlayerMove : MonoBehaviour {
     private Vector3 startPos;
     private Vector3 endPos;
 
-    [SerializeField]
+    
     private Vector3 leftEndPos;
-    [SerializeField]
+    
     private Vector3 rightEndPos;
 
     [SerializeField]
     private bool isJumping = false;
 
+    private bool isDJumping = false;
+
     private bool startCurve = false;
 
     private float t = 0.0f;
 
-    [SerializeField]
-    private float jumpHeight = 2f;
+    [@Tooltip("캐릭터 점프 높이")]
+    public float jumpHeight = 2f;
 
-    [SerializeField]
-    private float speed = 3.0f;
+    [@Tooltip("캐릭터 최고높이가 어딘가?")]
+    public float centerPoint = 0.5f;
 
-    [SerializeField]
+    [@Tooltip( "두번째 점프 높이" )]
+    public float d_jumpHeight = 1f;
+
+    [@Tooltip("두번째 점프 지점")]
+    public float d_jumpPointHeight = 0f;
+
+    [@Tooltip( "두번째 최고높이가 어딘가?" )]
+    public float d_centerPoint = 0.5f;
+
+    [@Tooltip("캐릭터 이동 속도")]
+    public float speed = 3.0f;
+
     private float targetMinus = 0.0f;
 
     private PlayerAnim animControl;
@@ -71,9 +84,13 @@ public class PlayerMove : MonoBehaviour {
             endPos = rightEndPos;
         }
 
-        if( isJumping ) {
+        if( isJumping && !isDJumping) {
             JumpRotation();
             Jumping();
+        }
+
+        if( isDJumping ) {
+            DoubleJumping();
         }
     }
 
@@ -88,6 +105,17 @@ public class PlayerMove : MonoBehaviour {
             var p = Util.Math.GetLinearCurve( startPos, endPos, t );
             transform.position = p;
         }
+        if( t >= 0.5f ) {
+            var a = ( Input.GetKeyDown( KeyCode.A ) );
+            var d = ( Input.GetKeyDown( KeyCode.D ) );
+            if( a || d ) {
+                isDJumping = true;
+                startPos = transform.position;
+                j_dir = ( a ) ? JumpDirection.LEFT : JumpDirection.RIGHT;
+                t = 0.0f;
+            }
+            
+        }
         if( t > 1.0f ) {
             t = 0.0f;
             if( startCurve == false ) {
@@ -101,7 +129,7 @@ public class PlayerMove : MonoBehaviour {
     }
 
     private void DoubleJumping() {
-
+        t += Time.deltaTime * speed;
     }
 
     private void JumpRotation() {
@@ -110,5 +138,12 @@ public class PlayerMove : MonoBehaviour {
 
         int sign = ( j_dir == JumpDirection.LEFT ) ? 1 : -1;
         transform.rotation = Quaternion.Euler( 0, 0, ( 90f * sign ) * t * 5f );
+    }
+
+    private void OnCollisionStay2D(Collision2D pcol ) {
+        if( pcol.gameObject.name.Contains( "Wall" ) ) {
+            Debug.Log( "Log" );
+            startPos = transform.position;
+        }
     }
 }

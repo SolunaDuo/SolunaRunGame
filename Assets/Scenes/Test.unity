@@ -348,6 +348,36 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 61000011585729166, guid: f627ba99d7653f2479d9d0fe6c95cc7c,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 61000012010691808, guid: f627ba99d7653f2479d9d0fe6c95cc7c,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 61000013898808898, guid: f627ba99d7653f2479d9d0fe6c95cc7c,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 61000012631969666, guid: f627ba99d7653f2479d9d0fe6c95cc7c,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 61000010320740670, guid: f627ba99d7653f2479d9d0fe6c95cc7c,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 61000011370716512, guid: f627ba99d7653f2479d9d0fe6c95cc7c,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f627ba99d7653f2479d9d0fe6c95cc7c, type: 2}
   m_IsPrefabParent: 0
@@ -485,6 +515,7 @@ GameObject:
   - 114: {fileID: 694137883}
   - 114: {fileID: 694137884}
   - 114: {fileID: 694137885}
+  - 50: {fileID: 694137886}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -591,12 +622,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61b00dc7d8192dc4a83f8ded7cc90dc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftEndPos: {x: 0, y: 0, z: 0}
-  rightEndPos: {x: 0, y: 0, z: 0}
   isJumping: 0
   jumpHeight: 2
+  centerPoint: 0.5
+  d_jumpHeight: 1
+  d_centerPoint: 0.5
   speed: 3
-  targetMinus: 0
 --- !u!114 &694137885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -614,6 +645,23 @@ MonoBehaviour:
   m_fSkillLenth: 0.2
   m_fCoolTime: 0
   m_fDoubleClickTerm: 0.15
+--- !u!50 &694137886
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 694137878}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1001 &888987759
 Prefab:
   m_ObjectHideFlags: 0
